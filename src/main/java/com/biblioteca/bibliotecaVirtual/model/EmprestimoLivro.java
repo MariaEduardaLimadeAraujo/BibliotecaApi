@@ -8,13 +8,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 
-@Entity
+@Entity(name = "emprestimoLivro")
 @Table(name = "tb_emprestimo_livro")
 public class EmprestimoLivro {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    public Long id;
+    private Long id;
     public Long idLivro;
     public Long idUsuario;
     public LocalDate dataDeEntrega;
@@ -23,9 +23,7 @@ public class EmprestimoLivro {
     public Long getId() {
         return id;
     }
-    public void setId(Long id) {
-        this.id = id;
-    }
+  
     public Long getIdLivro() {
         return idLivro;
     }
