@@ -1,4 +1,5 @@
 package com.biblioteca.bibliotecaVirtual.controller;
+import java.util.Arrays;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +26,12 @@ public class LivroController {
 
     @PostMapping("/livros")
     public ResponseEntity<String>  criarLivros(){
-        for(Long i = (long) 0; i < 5; i++){
+        List<String> titulos = Arrays.asList("Pessoas Normais", "Mulherzinhas", "É assim que acaba", "Harry Potter", "Criança Peculiares");
+        
+        for(int i = (int) 0; i < 5; i++){
             Livro livro = new Livro();
-            livro.setTitulo("Harry Potter");
-            livro.setAnoPublicacao(i);
+            livro.setTitulo(titulos.get(i));
+            livro.setAnoPublicacao((long) i);
             this.livroService.criarLivro(livro);
         }
         return ResponseEntity.ok().body("Livros criados");

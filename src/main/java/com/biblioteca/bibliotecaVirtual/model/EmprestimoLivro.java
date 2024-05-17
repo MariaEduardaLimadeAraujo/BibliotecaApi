@@ -1,6 +1,8 @@
 package com.biblioteca.bibliotecaVirtual.model;
 
 import java.time.LocalDate;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,29 +15,33 @@ import jakarta.persistence.Table;
 public class EmprestimoLivro {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    public Long idLivro;
-    public Long idUsuario;
-    public LocalDate dataDeEntrega;
-    public boolean entregaRealizada;
+    private Long idLivro;
+    private Long idUsuario;
+
+    @Column(name = "data_de_entrega", nullable = false)
+    private LocalDate dataDeEntrega;
+
+    @Column(name = "entrega_realizada", nullable = false)
+    private boolean entregaRealizada;
   
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id){
+        this.id = id;
     }
   
     public Long getIdLivro() {
         return idLivro;
     }
-    public void setIdLivro(Long idLivro) {
-        this.idLivro = idLivro;
-    }
+   
     public Long getIdUsuario() {
         return idUsuario;
     }
-    public void setIdUsuario(Long idUsuario) {
-        this.idUsuario = idUsuario;
-    }
+   
     public LocalDate getDataDeEntrega() {
         return dataDeEntrega;
     }
