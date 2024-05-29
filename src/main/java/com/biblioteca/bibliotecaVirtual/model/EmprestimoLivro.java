@@ -7,24 +7,35 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 
-@Entity(name = "emprestimoLivro")
+@Entity
 @Table(name = "tb_emprestimo_livro")
 public class EmprestimoLivro {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long idLivro;
-    private Long idUsuario;
+    
+    @OneToOne
+    @JoinColumn(name ="livro_id", nullable = true, referencedColumnName = "id")
+    private Livro livro;
+
+    @ManyToOne
+    @JoinColumn(name ="usuario_id", nullable = true, referencedColumnName = "id")
+    private Usuario usuario;
 
     @Column(name = "data_de_entrega", nullable = false)
     private LocalDate dataDeEntrega;
 
     @Column(name = "entrega_realizada", nullable = false)
     private boolean entregaRealizada;
+
+    public EmprestimoLivro(){}
   
     public Long getId() {
         return id;
@@ -34,14 +45,13 @@ public class EmprestimoLivro {
         this.id = id;
     }
   
-    public Long getIdLivro() {
-        return idLivro;
+    public Usuario getUsuario() {
+        return usuario;
     }
    
-    public Long getIdUsuario() {
-        return idUsuario;
+    public Livro getLivro() {
+        return livro;
     }
-   
     public LocalDate getDataDeEntrega() {
         return dataDeEntrega;
     }

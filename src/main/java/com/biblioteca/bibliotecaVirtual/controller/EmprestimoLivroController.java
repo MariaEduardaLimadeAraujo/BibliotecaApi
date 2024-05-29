@@ -22,15 +22,20 @@ public class EmprestimoLivroController {
     EmprestimoLivroService emprestimoLivroService;
 
     @GetMapping("/emprestimos")
-    public ResponseEntity<List<EmprestimoLivro>> listarEmprestimos() {
+    public ResponseEntity<List<EmprestimoLivro>> listarEmprestimos() throws Exception {
         List<EmprestimoLivro> emprestimos = emprestimoLivroService.listarEmprestimos();
         return ResponseEntity.ok().body(emprestimos);
     }
 
     @PostMapping("/emprestimos")
-    public ResponseEntity<EmprestimoLivro> cadastrarEmprestimo(@RequestBody EmprestimoLivro emprestimoLivro) {
-        EmprestimoLivro novoEmprestimo = emprestimoLivroService.cadastrarEmprestimo(emprestimoLivro);
-        return ResponseEntity.status(HttpStatus.CREATED).body(novoEmprestimo);
+    public ResponseEntity<String> cadastrarEmprestimo(@RequestBody EmprestimoLivro emprestimoLivro) throws Exception {
+        String resultado = emprestimoLivroService.cadastroEmprestimo(emprestimoLivro);
+
+        if (resultado.contains("Atenção")) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(resultado);
+        } else {
+            return ResponseEntity.status(HttpStatus.CREATED).body(resultado);
+        }
     }
 
     @PutMapping("/{id}")
