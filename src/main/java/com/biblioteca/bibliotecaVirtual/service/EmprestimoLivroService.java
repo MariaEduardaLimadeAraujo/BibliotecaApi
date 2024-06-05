@@ -27,7 +27,7 @@ public class EmprestimoLivroService {
                 return "Atenção: Usuário já possui 3 livros emprestados.";
             }
 
-            if (this.usuarioTemLivroDevolvido(usuarioId, livroId)) {
+            if (this.usuarioTemLivroNaoDevolvido(usuarioId, livroId)) {
                 return "Atenção: Usuário já possui este livro emprestado.";
             }
 
@@ -41,14 +41,17 @@ public class EmprestimoLivroService {
     }
 
     private boolean usuarioPossuiTresLivrosEmprestados(Long usuarioId) {
-        return false;
         // Implementação do método para verificar se o usuário possui 3 livros não devolvidos.
+        List<EmprestimoLivro> emprestimos = emprestimoRepository.findByUsuarioIdAndEntregaRealizadaFalse(usuarioId);
+        return emprestimos.size() >= 3;
     }
 
-    private boolean usuarioTemLivroDevolvido(Long usuarioId, Long livroId) {
-        return false;
-        // Implementação do método para verificar se o usuário já possui um livro específico não devolvido.
+    private boolean usuarioTemLivroNaoDevolvido(Long usuarioId, Long livroId) {
+        List<EmprestimoLivro> emprestimos = emprestimoRepository.findByUsuarioIdAndLivroIdAndEntregaRealizadaFalse(usuarioId, livroId);
+        return !emprestimos.isEmpty();
     }
+        // Implementação do método para verificar se o usuário já possui um livro específico não devolvido.
+    
 
     public List<EmprestimoLivro> listarEmprestimos() throws Exception {
         try {
@@ -59,11 +62,27 @@ public class EmprestimoLivroService {
         }
     }
 
-    public EmprestimoLivro atualizarEmprestimo(Long id, EmprestimoLivro emprestimoLivro) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'atualizarEmprestimo'");
+    public EmprestimoLivro atualizarEmprestimo(Long id, EmprestimoLivro emprestimoLivro) throws Exception {
+        try {
+            java.util.Optional<EmprestimoLivro> optionalEmprestimo = emprestimoRepository.findById(id);
+            if (optionalEmprestimo.isPresent()) {
+                EmprestimoLivro emprestimoExistente = optionalEmprestimo.get();
+                if (emprestimoExistente.isEntregaRealizada()) {
+                    throw new Exception("O livro já foi entregue anteriormente.");
+                } else {
+                    emprestimoExistente.setEntregaRealizada(true);
+                    emprestimoRepository.save(emprestimoExistente);
+                    return emprestimoExistente;
+                }
+            } else {
+                throw new Exception("Empréstimo não encontrado para o ID: " + id);
+            }
+        } catch (Exception e) {
+            String mensagem = "Erro ao tentar atualizar o empréstimo: " + e.getMessage();
+            throw new Exception(mensagem);
+        }
     }
+    
 }
-  
 
 

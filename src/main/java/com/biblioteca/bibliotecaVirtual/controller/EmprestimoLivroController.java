@@ -38,9 +38,13 @@ public class EmprestimoLivroController {
         }
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<EmprestimoLivro> atualizarEmprestimo(@PathVariable Long id, @RequestBody EmprestimoLivro emprestimoLivro) {
-        EmprestimoLivro emprestimoAtualizado = emprestimoLivroService.atualizarEmprestimo(id, emprestimoLivro);
-        return ResponseEntity.ok().body(emprestimoAtualizado);
+    @PutMapping("/emprestimos/{id}")
+    public ResponseEntity<String> atualizarEmprestimo(@PathVariable Long id, @RequestBody EmprestimoLivro emprestimoLivro) {
+        try {
+            emprestimoLivroService.atualizarEmprestimo(id, emprestimoLivro);
+            return ResponseEntity.ok().body("Empréstimo atualizado com sucesso.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 }
