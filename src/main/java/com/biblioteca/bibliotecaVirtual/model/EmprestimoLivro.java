@@ -9,7 +9,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 
@@ -21,12 +20,12 @@ public class EmprestimoLivro {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @OneToOne
-    @JoinColumn(name ="livro_id", nullable = true, referencedColumnName = "id")
+    @ManyToOne
+    @JoinColumn(name ="livro_id", nullable = false, referencedColumnName = "id")
     private Livro livro;
 
     @ManyToOne
-    @JoinColumn(name ="usuario_id", nullable = true, referencedColumnName = "id")
+    @JoinColumn(name ="usuario_id", nullable = false, referencedColumnName = "id")
     private Usuario usuario;
 
     @Column(name = "data_de_entrega", nullable = false)

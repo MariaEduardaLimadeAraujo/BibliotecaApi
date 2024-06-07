@@ -11,7 +11,7 @@ public interface EmprestimoLivroRepository extends JpaRepository<EmprestimoLivro
 
     List<EmprestimoLivro> findByUsuarioIdAndEntregaRealizadaFalse(Long usuarioId);
 
-    List<EmprestimoLivro> findByLivroIdAndEntregaRealizadaFalse(Long usuarioId);
+    List<EmprestimoLivro> findByLivroIdAndEntregaRealizadaFalse(Long livroId);
 
     List<EmprestimoLivro> findByUsuarioIdAndLivroIdAndEntregaRealizadaFalse(Long usuarioId, Long livroId);
     
